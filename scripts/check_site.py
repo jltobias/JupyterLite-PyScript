@@ -99,6 +99,21 @@ def check_data_and_python():
         ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
     assert json.loads((SITE / "data/nyc-observations.geojson").read_text()) == dataset
     assert (SITE / "apps/shared/selection.py").read_bytes() == (ROOT / "content/selection.py").read_bytes()
+    assert (SITE / "apps/shared/chart_data.py").read_bytes() == (ROOT / "content/chart_data.py").read_bytes()
+    sys.path.insert(0, str(ROOT / "content"))
+    try:
+        charts = load_module("chart_data", ROOT / "content/chart_data.py")
+        for group, groups in [("hour", 4), ("neighborhood", 6), ("point", 24)]:
+            for metric in ["count", "total"]:
+                summary = charts.chart_summary(dataset, group, metric=metric)
+                assert len(summary["rows"]) == groups
+                assert sum(row["count"] for row in summary["rows"]) == 24
+                assert summary == json.loads(charts.export_summary(dataset, group, metric=metric))
+                assert charts.chart_summary(dataset, group, 0, metric)["rows"] == []
+    finally:
+        sys.path.pop(0)
+    for path in [ROOT / "content/chart_data.py", ROOT / "site/apps/shared/charts.py"]:
+        ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
 
 
 def check_hour_selectors(selection, dataset):
@@ -115,7 +130,8 @@ def check_hour_selectors(selection, dataset):
 
 def check_notebooks(base):
     import nbformat
-    names = ["01-welcome.ipynb", "02-explore-data.ipynb", "03-author-an-app.ipynb"]
+    names = sorted(path.name for path in (ROOT / "content").glob("*.ipynb"))
+    assert len(names) == 7, f"Expected seven lessons, found {names}"
     for name in names:
         notebook = nbformat.read(ROOT / "content" / name, as_version=4)
         nbformat.validate(notebook)
@@ -135,8 +151,13 @@ def check_notebooks(base):
             if cell["cell_type"] == "markdown":
                 markdown = "".join(cell["source"])
                 assert "{{HUB_BASE}}" not in markdown and "../../apps/" not in markdown
-    for path in ["data/nyc-observations.geojson", "selection.py", "source/lab.py", "source/lab.js", "source/apps/leaflet/index.html"]:
+    for path in ["data/nyc-observations.geojson", "selection.py", "chart_data.py", "hub-config.json",
+                 "source/lab.py", "source/lab.js", "source/apps/leaflet/index.html", "source/charts.py",
+                 "source/charts.js", "source/charts.json", "source/chart_data.py",
+                 "source/apps/d3/index.html", "source/apps/d3plus/index.html"]:
         assert_file(SITE / "lite/files" / path)
+    assert json.loads((SITE / "lite/files/hub-config.json").read_text())["base_url"] == base
+    assert (SITE / "lite/files/chart_data.py").read_bytes() == (ROOT / "content/chart_data.py").read_bytes()
     # Execute every lesson's real Python cells with an isolated copy of its
     # packaged files. This catches wrong lesson paths and missing modules.
     original_cwd = Path.cwd()
@@ -148,12 +169,19 @@ def check_notebooks(base):
         try:
             os.chdir(work)
             for name in names:
+                # Resolve each shared module from the packaged filesystem.
+                sys.modules.pop("selection", None)
+                sys.modules.pop("chart_data", None)
                 notebook = nbformat.read(work / name, as_version=4)
                 namespace = {"__name__": "__main__"}
                 with redirect_stdout(io.StringIO()):
                     for index, cell in enumerate(notebook.cells):
                         if cell.cell_type == "code":
                             exec(compile(cell.source, f"{name}:cell{index}", "exec"), namespace)
+                if name.startswith(("04-", "05-", "06-", "07-")):
+                    expected_url = f"{base}/apps/{namespace['renderer']}/?"
+                    assert namespace["app_url"].startswith(expected_url)
+                    assert namespace["summary"]["metadata"]["feature_count"] == 24
         finally:
             os.chdir(original_cwd)
             sys.path.pop(0)
@@ -167,14 +195,15 @@ def main():
     assert_file(SITE / "build-info.json")
     base = json.loads((SITE / "build-info.json").read_text())["base_url"]
     for route in ["index.html", "lite/lab/index.html", "book/index.html", "integrations/index.html",
-                  "apps/leaflet/index.html", "apps/deck/index.html", "apps/scene/index.html"]:
+                  "apps/leaflet/index.html", "apps/deck/index.html", "apps/scene/index.html",
+                  "apps/d3/index.html", "apps/d3plus/index.html"]:
         assert_file(SITE / route)
-    for chapter in ["runtimes", "data", "maps-and-scenes", "authoring", "nyc-taxi", "interoperability", "deployment"]:
+    for chapter in ["runtimes", "data", "maps-and-scenes", "d3-and-d3plus", "authoring", "nyc-taxi", "interoperability", "deployment"]:
         assert_file(SITE / "book" / chapter / "index.html")
     check_data_and_python()
     check_notebooks(base)
     checked = check_links(base)
-    print(f"PASS: {checked} local links/assets, primary routes, 3 notebook schemas/execution and packaging, deterministic data, Python filter/export and empty selections (base={base or '/'}).")
+    print(f"PASS: {checked} local links/assets, primary routes, 7 notebook schemas/execution and packaging, deterministic data, Python filter/aggregation/export and empty selections (base={base or '/'}).")
 
 
 if __name__ == "__main__":

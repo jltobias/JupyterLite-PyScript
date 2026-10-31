@@ -1,0 +1,35 @@
+.chart-viewport {
+  background: white;
+}
+.chart-viewport > svg {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+}
+.chart-viewport .chart-note {
+  fill: #526d75;
+  font:
+    12px system-ui,
+    sans-serif;
+}
+.chart-empty {
+  padding: 40px 25px;
+  text-align: center;
+  color: #526d75;
+}
+.chart-viewport svg:focus-visible,
+.chart-viewport [tabindex]:focus-visible {
+  outline-offset: -3px;
+}
+.chart-controls {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  .chart-controls {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .chart-controls select {
+    min-width: 0;
+  }
+}

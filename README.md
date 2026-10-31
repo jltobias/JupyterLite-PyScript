@@ -2,7 +2,7 @@
 
 **Browser Geospatial Lab · James L. Tobias, MS, GISP**
 
-Explore Python in your browser, from your first JupyterLite notebook to PyScript maps and 3D scenes. A companion **Jupyter Book 2** connects the lessons, and one small synthetic NYC dataset travels through every activity.
+Explore Python in your browser, from your first JupyterLite notebook to PyScript maps, 3D scenes and D3/D3plus charts. A companion **Jupyter Book 2** connects the lessons, and one small synthetic NYC dataset travels through every activity.
 
 ![An original illustration connects a Python notebook, a geographic map and a three-dimensional city through GeoJSON.](site/assets/splash.svg)
 
@@ -18,9 +18,15 @@ No learner account, access token, local Python installation or Python backend is
 | deck.gl 3D map | [Open the columns](https://jltobias.github.io/JupyterLite-PyScript/apps/deck/) | Compare simulated magnitudes in geographic space |
 | Three.js 3D scene | [Open the scene](https://jltobias.github.io/JupyterLite-PyScript/apps/scene/) | Compare a local teaching scene with a geographic map |
 | App authoring | [Read working source](https://jltobias.github.io/JupyterLite-PyScript/lite/lab/index.html?path=03-author-an-app.ipynb) | Trace the Python-to-JavaScript interaction |
+| D3 hourly bars | [Notebook 04](https://jltobias.github.io/JupyterLite-PyScript/lite/lab/index.html?path=04-d3-hourly-bars.ipynb) · [standalone app](https://jltobias.github.io/JupyterLite-PyScript/apps/d3/?view=bars) | Aggregate hours in Python; draw SVG bars with D3 |
+| D3 projected NYC points | [Notebook 05](https://jltobias.github.io/JupyterLite-PyScript/lite/lab/index.html?path=05-d3-projected-points.ipynb) · [standalone app](https://jltobias.github.io/JupyterLite-PyScript/apps/d3/?view=points) | Project synthetic locations without a basemap |
+| D3plus neighborhood bars | [Notebook 06](https://jltobias.github.io/JupyterLite-PyScript/lite/lab/index.html?path=06-d3plus-neighborhood-bars.ipynb) · [standalone app](https://jltobias.github.io/JupyterLite-PyScript/apps/d3plus/?view=bars) | Compare additive neighborhood totals and counts |
+| D3plus neighborhood treemap | [Notebook 07](https://jltobias.github.io/JupyterLite-PyScript/lite/lab/index.html?path=07-d3plus-neighborhood-treemap.ipynb) · [standalone app](https://jltobias.github.io/JupyterLite-PyScript/apps/d3plus/?view=treemap) | Reuse the same Python rows as rectangle areas |
 | GIS interoperability | [Try the file handoff](https://jltobias.github.io/JupyterLite-PyScript/integrations/) | Import an exported selection into GeoLibre, RustGIS or JupyterGIS |
 
 JupyterLite's notebook kernel and each PyScript app have **separate Python runtimes and virtual filesystems**. They reuse source and data; they do not share memory or installed packages. PyScript is not a JupyterLite kernel. Move files explicitly with download and upload/import.
+
+The four chart notebooks execute real standard-library Python preparation and embed an interactive PyScript app using `IPython.display.IFrame`. Build-generated `hub-config.json` supplies the deployment prefix; `view`, `hour` (`all` or 0–23) and `metric` (`total` or `count`) configure the iframe URL. The app independently loads its own dataset and shared [chart_data.py](content/chart_data.py). Changing notebook data or variables does not change the app's memory. Chart marks, accessible summary tables and JSON exports all use the same Python-prepared rows. Read [the chart chapter](book/d3-and-d3plus.md) for the stepwise lesson sequence, sources and runtime boundary.
 
 ## Run locally
 
@@ -60,9 +66,9 @@ python -m unittest discover -s scripts -p "test_*.py"
 python scripts/browser_smoke.py
 ```
 
-An existing Chrome/Chromium can be selected with `--browser-executable "path/to/chrome"`. The check starts its own local server and exercises the recorded URL prefix. It loads actual browser Python and all three renderers, selects six points at 08:00, checks filtered and zero-feature downloads, verifies mobile layouts and book/Lab routes, and tests blocked-CDN and unavailable-WebGL messages. Screenshots are written under `tmp/browser/`.
+An existing Chrome/Chromium can be selected with `--browser-executable "path/to/chrome"`. The check starts its own local server and exercises the recorded URL prefix. It loads actual browser Python in the three geospatial renderers and four chart views, verifies filtered and empty graphics, checks tables/downloads, executes all four chart notebooks with their embedded apps, verifies mobile layouts and book/Lab routes, and tests blocked-CDN and unavailable-WebGL messages. Screenshots are written under `tmp/browser/`.
 
-`check_site.py` validates generated launch routes and local links, notebook schemas and packaged sources, deterministic data, and shared Python filtering/export including empty results. These artifact checks complement live browser checks; they do not replace them.
+`check_site.py` validates generated launch routes and local links, seven notebook schemas and actual cells against packaged sources/config, deterministic data, and shared Python filtering/aggregation/export including empty results. These artifact checks complement live browser checks; they do not replace them.
 
 ## Publish with GitHub Pages
 
@@ -76,8 +82,8 @@ A repository maintainer selects **Settings → Pages → Source: GitHub Actions*
 | --- | --- |
 | [site/](site/) | Responsive landing page, original SVG splash and PyScript app routes |
 | [site/apps/shared/](site/apps/shared/) | Python callbacks, pinned runtime config and JavaScript renderer adapters |
-| [content/selection.py](content/selection.py) | Shared standard-library filtering and GeoJSON serialization |
-| [content/](content/) | Three notebooks and the shared teaching dataset |
+| [content/selection.py](content/selection.py) and [chart_data.py](content/chart_data.py) | Shared standard-library filtering, aggregation and serialization |
+| [content/](content/) | Seven notebooks and the shared teaching dataset |
 | [book/](book/) | Jupyter Book 2 / MyST chapters and navigation |
 | [scripts/](scripts/) | Assembly, preview, deterministic source generators and verification |
 | [.github/workflows/pages.yml](.github/workflows/pages.yml) | Combined build/check/deploy pipeline |
@@ -92,7 +98,7 @@ Explore the independently maintained [NYC Taxi Panel/deck.gl example hosted unde
 
 The integration lesson exchanges GeoJSON through [GeoLibre Web](https://web.geolibre.app/), [RustGIS Web](https://web.rustgis.app/) and [JupyterGIS Lite](https://jupytergis.readthedocs.io/en/latest/lite/lab/index.html). RustGIS Python targets native CPython; JupyterGIS Lite has preview limitations, including no real-time collaboration, QGIS project conversion, server raster tiling or functioning STAC search. See [GeoLibre URL handoff docs](https://geolibre.app/user-guide/embedding/), [RustGIS import formats](https://rustgis.app/user-guide/data/) and [JupyterGIS documentation](https://jupytergis.readthedocs.io/en/latest/).
 
-The apps pin [PyScript 2026.7.3](https://docs.pyscript.net/2026.7.3/user-guide/configuration/) with Pyodide 0.29.0, Leaflet 1.9.4, deck.gl 9.1.14 and Three.js 0.180.0. The separately built JupyterLite kernel manages its own Pyodide runtime. Build packages are pinned in [requirements.txt](requirements.txt); the book uses [MyST static export](https://mystmd.org/guide/deployment). Maps use © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright). The splash illustration is original SVG artwork.
+The apps pin [PyScript 2026.7.3](https://docs.pyscript.net/2026.7.3/user-guide/configuration/) with Pyodide 0.29.0, Leaflet 1.9.4, deck.gl 9.1.14, Three.js 0.180.0, D3 7.9.0 and D3plus core 4.10.0. The separately built JupyterLite kernel manages its own Pyodide runtime. Build packages are pinned in [requirements.txt](requirements.txt); the book uses [MyST static export](https://mystmd.org/guide/deployment). Maps use © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright). The splash illustration is original SVG artwork.
 
 Browser storage can be cleared; download important work. The 3D labs need WebGL 2. If graphics assets or runtimes are blocked, visible messages explain the failure and navigation remains usable.
 
@@ -136,12 +142,16 @@ The local adapters use the official APIs and examples linked below. Versions ide
 | **Volodymyr Agafonkin, CloudMade and Leaflet contributors**; Leaflet 1.9.4 | 2D map. [Source](https://github.com/Leaflet/Leaflet), [quick-start examples](https://leafletjs.com/examples/quick-start/) | [BSD-2-Clause](https://github.com/Leaflet/Leaflet/blob/v1.9.4/LICENSE); © 2010–2023 Volodymyr Agafonkin and © 2010–2011 CloudMade |
 | **vis.gl contributors**; deck.gl 9.1.14 | Geographic columns and tiled basemap. [Source](https://github.com/visgl/deck.gl), [standalone API](https://deck.gl/docs/get-started/using-standalone), [TileLayer / BitmapLayer example](https://deck.gl/docs/api-reference/geo-layers/tile-layer) | [MIT](https://github.com/visgl/deck.gl/blob/v9.1.14/LICENSE); copyright vis.gl contributors |
 | **three.js authors and contributors**; Three.js 0.180.0, including OrbitControls | 3D scene, camera controls and rendering. [Source](https://github.com/mrdoob/three.js), [manual](https://threejs.org/manual/#en/fundamentals), [OrbitControls source](https://github.com/mrdoob/three.js/blob/r180/examples/jsm/controls/OrbitControls.js) | [MIT](https://github.com/mrdoob/three.js/blob/r180/LICENSE); © 2010–2025 three.js authors |
+| **Mike Bostock / Observable and D3 contributors**; D3 7.9.0 | Hourly SVG bars and projected synthetic NYC points. [Official project](https://d3js.org/), [source](https://github.com/d3/d3), [data joins](https://d3js.org/d3-selection/joining) | [ISC](https://github.com/d3/d3/blob/v7.9.0/LICENSE); © 2010–2023 Mike Bostock |
+| **D3plus and contributors**; @d3plus/core 4.10.0 | Neighborhood BarChart and Treemap (`sum: 'value'`). [Official project](https://d3plus.org/), [source/quick start](https://github.com/d3plus/d3plus/blob/main/README.md), [core API](https://github.com/d3plus/d3plus/blob/main/packages/core/API.md); pinned npm UMD bundle delivered by jsDelivr | [MIT](https://github.com/d3plus/d3plus/blob/main/LICENSE); © 2026 D3plus |
 | **Python Software Foundation and Python contributors** | CPython and the Python standard library. [Python](https://www.python.org/), [documentation](https://docs.python.org/3.13/) | [Python license agreements and included notices](https://docs.python.org/3.13/license.html) |
 | **Node.js contributors** | Local/CI book build runtime. [Source](https://github.com/nodejs/node), [project](https://nodejs.org/) | [MIT and bundled third-party notices](https://github.com/nodejs/node/blob/main/LICENSE) |
 | **Microsoft and Playwright contributors**; Playwright 1.56.0 | Browser verification, screenshots and download checks. [Source](https://github.com/microsoft/playwright), [documentation](https://playwright.dev/python/) | [Apache-2.0](https://github.com/microsoft/playwright/blob/v1.56.0/LICENSE) |
 | **IPython and Jupyter development teams**; nbformat 5.10.4 | Notebook format validation. [Source](https://github.com/jupyter/nbformat), [documentation](https://nbformat.readthedocs.io/en/stable/) | [BSD-3-Clause](https://github.com/jupyter/nbformat/blob/main/LICENSE) |
 
 **Jupyter Book / MyST scholarly reference:** Project Jupyter et al. (2025). *Jupyter Book 2 and the MyST Document Stack: A modular, extensible, web-native stack for authoring and publishing computational narratives*. Proceedings of the 24th Python in Science Conference, 173–193. [doi:10.25080/hwcj9957](https://doi.org/10.25080/hwcj9957). See the [official citation page](https://jupyterbook.org/stable/cite/) for the complete author list and citation metadata.
+
+**D3 scholarly reference:** Bostock, M., Ogievetsky, V., & Heer, J. (2011). *D³: Data-Driven Documents*. IEEE Transactions on Visualization and Computer Graphics, 17(12), 2301–2309. [doi:10.1109/TVCG.2011.185](https://doi.org/10.1109/TVCG.2011.185). See the [author-hosted record](https://idl.uw.edu/papers/d3) and [original paper](https://vis.stanford.edu/files/2011-D3-InfoVis.pdf).
 
 ### Basemap, format and service attributions
 

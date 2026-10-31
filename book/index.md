@@ -14,7 +14,8 @@ Everything learners run here lives in the browser. No account, access token, loc
 2. **Understand the data.** Open `02-explore-data.ipynb`. Inspect 24 synthetic observations and count them by hour. Read [the data lesson](data.md).
 3. **Compare views.** Try the [2D map]({{HUB_BASE}}/apps/leaflet/), [3D map]({{HUB_BASE}}/apps/deck/) and [3D scene]({{HUB_BASE}}/apps/scene/). Select 08:00, then 00:00. Read [maps and scenes](maps-and-scenes.md).
 4. **Read and change code.** Use `03-author-an-app.ipynb` and [the authoring lesson](authoring.md) to trace Python → GeoJSON → JavaScript.
-5. **Exchange data.** Download a selection and follow [the GIS handoff]({{HUB_BASE}}/integrations/) into GeoLibre, RustGIS or JupyterGIS.
+5. **Prepare and chart.** Run lessons 04–07: [D3 hourly bars and projected points, D3plus neighborhood bars and treemap](d3-and-d3plus.md). Each notebook prepares real Python rows and embeds a live PyScript application.
+6. **Exchange data.** Download a selection and follow [the GIS handoff]({{HUB_BASE}}/integrations/) into GeoLibre, RustGIS or JupyterGIS.
 
 ## What you will make
 

@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>D3plus charts · Browser Geospatial Lab</title>
+    <link rel="stylesheet" href="../../assets/style.css" />
+    <link rel="stylesheet" href="../shared/charts.css" />
+    <script type="module" src="../shared/charts.js"></script>
+    <script
+      type="module"
+      src="https://pyscript.net/releases/2026.7.3/core.js"
+      onerror="
+        window.pyscriptLoadFailed = true;
+        window.chartFailure?.(
+          'Could not load the PyScript runtime. Check CDN access.',
+        );
+      "
+    ></script>
+  </head>
+  <body data-renderer="d3plus">
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="topbar">
+      <div class="wrap">
+        <a class="brand" href="../../"
+          ><span class="brand-mark" aria-hidden="true">⌘</span
+          ><span
+            >JupyterLite × PyScript<small>Browser Geospatial Lab</small></span
+          ></a
+        >
+        <nav class="nav" aria-label="Lab navigation">
+          <a href="../../book/d3-and-d3plus/">Chart lesson</a
+          ><a href="../d3/">D3 lab</a><a href="../leaflet/">2D map</a>
+        </nav>
+      </div>
+    </header>
+    <main id="main">
+      <div class="lab-heading wrap">
+        <div class="breadcrumbs">
+          <a href="../../">Home</a> / Interactive labs / D3plus
+        </div>
+        <div class="eyebrow">Python preparation + D3plus 4.10.0 graphics</div>
+        <h1>Compare synthetic neighborhoods.</h1>
+        <p>
+          Explore 24 synthetic NYC observations. Python filters and aggregates;
+          JavaScript draws the same rows shown in the accessible table and JSON
+          export. Values are invented teaching units.
+        </p>
+      </div>
+      <div class="lab-layout wrap">
+        <aside class="controls chart-controls" aria-label="Chart controls">
+          <h2>Explore the sample</h2>
+          <div>
+            <label for="view">Chart view</label
+            ><select id="view" disabled>
+              <option value="bars">Neighborhood bars</option>
+              <option value="treemap">Neighborhood treemap</option>
+            </select>
+          </div>
+          <div>
+            <label for="hour">Hour of day</label
+            ><select id="hour" disabled>
+              <option value="all">All hours</option>
+              <option value="0">00:00 — no observations</option>
+              <option value="1">01:00</option>
+              <option value="2">02:00</option>
+              <option value="3">03:00</option>
+              <option value="4">04:00</option>
+              <option value="5">05:00</option>
+              <option value="6">06:00</option>
+              <option value="7">07:00</option>
+              <option value="8">08:00</option>
+              <option value="9">09:00</option>
+              <option value="10">10:00</option>
+              <option value="11">11:00</option>
+              <option value="12">12:00</option>
+              <option value="13">13:00</option>
+              <option value="14">14:00</option>
+              <option value="15">15:00</option>
+              <option value="16">16:00</option>
+              <option value="17">17:00</option>
+              <option value="18">18:00</option>
+              <option value="19">19:00</option>
+              <option value="20">20:00</option>
+              <option value="21">21:00</option>
+              <option value="22">22:00</option>
+              <option value="23">23:00</option>
+            </select>
+          </div>
+          <div>
+            <label for="metric">Metric</label
+            ><select id="metric" disabled>
+              <option value="total">Total invented value</option>
+              <option value="count">Observation count</option>
+            </select>
+          </div>
+          <div class="stat">
+            <p class="count" id="count" aria-live="polite">—</p>
+            <p class="count-label">synthetic observations</p>
+          </div>
+          <button class="button" id="download" disabled>
+            Download summary JSON ↓
+          </button>
+          <div
+            class="status"
+            id="status"
+            role="status"
+            aria-live="polite"
+            data-state="loading"
+          >
+            Loading Python and required chart library… First load may take a
+            minute.
+          </div>
+          <p class="note">
+            Synthetic teaching data. These are not measured trips or health
+            records. Rectangle areas and bar heights encode the selected
+            additive metric.
+          </p>
+        </aside>
+        <div
+          class="viewport chart-viewport"
+          id="viewport"
+          role="region"
+          aria-label="Interactive D3plus chart"
+          aria-describedby="chart-description"
+        ></div>
+      </div>
+      <div class="observation-details wrap">
+        <p id="chart-description">
+          The table provides every plotted value. Count is the number of
+          observations; total is the sum of invented values. Coordinates are
+          arithmetic centroids of each row's observations in WGS 84 longitude,
+          latitude.
+        </p>
+        <details id="summary">
+          <summary>View Python summary table</summary>
+          <div
+            class="table-scroll"
+            tabindex="0"
+            role="region"
+            aria-label="Python chart summary"
+          >
+            <table>
+              <caption>
+                Same rows as the chart and JSON export · synthetic data
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Label</th>
+                  <th scope="col">Count</th>
+                  <th scope="col">Total</th>
+                  <th scope="col">Plotted value</th>
+                  <th scope="col">Longitude</th>
+                  <th scope="col">Latitude</th>
+                </tr>
+              </thead>
+              <tbody id="summary-body">
+                <tr>
+                  <td colspan="7">Waiting for Python and the renderer.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+      </div>
+      <div class="lab-notes wrap">
+        <section>
+          <h2>Try it</h2>
+          <p>
+            Choose 08:00 to select six observations. Switch between total and
+            count, then choose 00:00 to clear every mark. Explore these apps
+            inside lessons 06 and 07 in
+            <a href="../../lite/lab/index.html">JupyterLite</a>.
+          </p>
+        </section>
+        <section>
+          <h2>Follow the source</h2>
+          <p>
+            <a href="../shared/charts.py">Python callbacks</a> ·
+            <a href="../shared/chart_data.py">Shared preparation</a> ·
+            <a href="../shared/charts.js">Graphics adapters</a> ·
+            <a href="../shared/charts.json">Runtime config</a>. Notebook and app
+            interpreters load independent copies: URL parameters configure the
+            iframe; notebook variables are not shared memory.
+          </p>
+        </section>
+      </div>
+    </main>
+    <footer class="footer">
+      <div class="wrap">
+        <p>James L. Tobias, MS, GISP · Synthetic NYC teaching data</p>
+        <p>
+          <a href="https://d3plus.org/">D3plus</a> core 4.10.0 ·
+          <a href="https://github.com/d3plus/d3plus/blob/main/LICENSE"
+            >MIT © 2026 D3plus</a
+          >
+        </p>
+      </div>
+    </footer>
+    <script
+      type="py"
+      src="../shared/charts.py"
+      config="../shared/charts.json"
+    ></script>
+  </body>
+</html>

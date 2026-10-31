@@ -1,5 +1,6 @@
 """Recreate small, dependency-light teaching notebooks (no saved outputs)."""
 import json
+from html import escape
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,6 +25,27 @@ def save(name, cells):
         "kernelspec": {"display_name": "Python (Pyodide)", "language": "python", "name": "python"},
         "language_info": {"name": "python", "version": "3.13"}}, "cells": cells}
     (ROOT / "content" / name).write_text(json.dumps(notebook, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+def chart_lesson(name, title, renderer, view, grouping, explanation, exercise):
+    """An executable Python preparation lesson with a separate live iframe."""
+    iframe_attributes = [f'title="{escape(f"Interactive {title}", quote=True)}"']
+    save(name, [
+        md(f"# {title}\n\n{explanation}\n\nRun every cell top to bottom. Python uses only the standard library for preparation; `IPython.display.IFrame` embeds the live PyScript app. The notebook kernel and iframe each run their **own Python interpreter** and load their own dataset/module. URL parameters configure the app; changing notebook variables or data is **not shared memory**."),
+        md("## 1. Inspect the shared data and provenance\n\nThese 24 synthetic NYC observations have invented hours, values and location offsets. They are not measured taxi trips, health records or observations of people."),
+        code("import json\nfrom pathlib import Path\nfrom urllib.parse import urlencode\nfrom IPython.display import IFrame, display\nfrom chart_data import chart_config, chart_summary, export_summary\n\ndataset = json.loads(Path('data/nyc-observations.geojson').read_text())\nprint(dataset['metadata']['provenance'])\nprint('Synthetic observations:', len(dataset['features']))\nassert dataset['metadata']['simulated'] is True"),
+        md("## 2. Set parameters and prepare real Python rows\n\nUse `hour = 'all'` for all 24 observations, `8` for six observations, or `0` for a valid empty selection. Choose `metric = 'total'` for the additive invented value, or `'count'` for the number of observations. Re-run from this cell after changing parameters."),
+        code(f"hour = 'all'\nmetric = 'total'\nrenderer = {renderer!r}\nview = {view!r}\ngroup_by = {grouping!r}\nconfig = chart_config(renderer, view, hour, metric)\nsummary = chart_summary(dataset, group_by, config['hour'], config['metric'])\nprint('Selected observations:', summary['metadata']['feature_count'])\nprint('Summary groups:', len(summary['rows']))\nfor row in summary['rows']:\n    print(row['id'], row['label'], 'count =', row['count'], 'total =', row['total'], 'plotted =', row['value'])"),
+        md("## 3. Verify the summary and empty selection\n\nCounts and totals are additive. Neighborhood coordinates are arithmetic centroids of the selected synthetic points; individual point rows retain their original coordinates. The export retains dataset provenance."),
+        code("assert sum(row['count'] for row in summary['rows']) == summary['metadata']['feature_count']\nassert all(row['value'] == row[metric] for row in summary['rows'])\nassert json.loads(export_summary(dataset, group_by, hour, metric)) == summary\nempty = chart_summary(dataset, group_by, 0, metric)\nassert empty['rows'] == []\nassert empty['metadata']['feature_count'] == 0\nprint('Python preparation and empty-selection checks passed.')"),
+        md(f"## 4. Run the interactive PyScript app here\n\nThe build writes `hub-config.json` with the actual deployment prefix. This produces a root-relative iframe URL that bypasses JupyterLab's notebook-file resolver and works at a site root or repository path. The app loads its own copy of `chart_data.py` and the dataset. Controls inside the iframe update that app; they do not change `summary` above.\n\n[Launch this view standalone](../../apps/{renderer}/?view={view}&hour=all&metric=total) · [Chart chapter](../../book/d3-and-d3plus/)."),
+        code("hub = json.loads(Path('hub-config.json').read_text())\nquery = urlencode({'view': view, 'hour': config['hour'], 'metric': config['metric']})\napp_url = f\"{hub['base_url']}/apps/{renderer}/?{query}\"\nprint('Embedded app:', app_url)\n"
+             + f"display(IFrame(src=app_url, width='100%', height=960, extras={iframe_attributes!r}))"),
+        md("## 5. Explore the deployed source\n\nThe build packages the actual app and shared sources below. JavaScript draws the serialized Python rows; it does not perform filtering or aggregation. Changing these notebook copies does not change the deployed app."),
+        code("print(Path('chart_data.py').read_text())"),
+        code(f"print(Path('source/charts.py').read_text())\nprint(Path('source/apps/{renderer}/index.html').read_text())"),
+        md(f"Read [the actual renderer](../../apps/shared/charts.js) and [runtime file mapping](../../apps/shared/charts.json). In JupyterLite, open `source/charts.js` to inspect the complete drawing code.\n\n## Exercises\n\n{exercise}\n\n1. Set `hour = 8` and predict the group count before rerunning. Compare the table and downloaded JSON inside the iframe with `summary`.\n2. Change `metric` to `'count'`, rerun the parameter and iframe cells, then compare the mark sizes.\n3. Set `hour = 0` and verify every data mark disappears, the table explains the empty selection and exported `rows` is empty.\n4. Change a value in the notebook's `dataset` and rerun only its summary: explain why the embedded app keeps its own data. Restore the dataset by rerunning cell 1.\n\nDownload important work from the JupyterLite file browser before clearing browser storage."),
+    ])
 
 
 if __name__ == "__main__":
@@ -62,4 +84,16 @@ if __name__ == "__main__":
         code("print(Path('source/lab.js').read_text())"),
         md("## Make a change you can explain\n\n1. Change the selected hour in the previous Python cell and predict its count.\n2. In a local repository checkout, change `getFillColor` in the deck.gl adapter or change the Three.js height factor.\n3. Rebuild and open the app. Confirm the new appearance while the geographic export stays correct.\n4. Test 00:00 again so an empty selection clears observations.\n\nLaunch the [2D app](../../apps/leaflet/), [3D app](../../apps/deck/) or [scene](../../apps/scene/). Read [authoring](../../book/authoring/) and [deployment](../../book/deployment/) in the book.\n\nFor package additions, check the specific Pyodide release's support. A native CPython GIS wheel is not evidence of browser compatibility."),
     ])
-    print("Created three teaching notebooks")
+    chart_lesson("04-d3-hourly-bars.ipynb", "D3 hourly bars: Python rows to SVG", "d3", "bars", "hour",
+        "Start with four occupied hours. Python groups observations by hour; D3 scales, axes and a keyed data join turn each summary row into a bar.",
+        "Inspect `d3Chart` in `source/charts.js`. Identify the band scale, linear scale and `.join('rect')`. Explain why grouping remains in Python while bar layout belongs to D3.")
+    chart_lesson("05-d3-projected-points.ipynb", "D3 projected NYC points", "d3", "points", "point",
+        "Project the original longitude/latitude coordinates with D3's Mercator projection. Each point is one synthetic observation; its radius encodes the selected count or total metric. This is a projected point display **without a basemap**.",
+        "Inspect the fixed projection bounds and `geoMercator().fitExtent(...)`. Explain why geographic coordinates remain unchanged in the Python rows while SVG coordinates change when the viewport resizes.")
+    chart_lesson("06-d3plus-neighborhood-bars.ipynb", "D3plus neighborhood bars", "d3plus", "bars", "neighborhood",
+        "Aggregate the 24 observations into six neighborhoods in Python. D3plus BarChart receives ready-to-draw rows with `groupBy='id'`, `x='id'` and `y='value'`.",
+        "Compare the hourly grouping in lesson 04 with the neighborhood grouping here. Predict which grouping has one row at 08:00 and which keeps six rows. Check your prediction using Python.")
+    chart_lesson("07-d3plus-neighborhood-treemap.ipynb", "D3plus neighborhood treemap", "d3plus", "treemap", "neighborhood",
+        "Use the same neighborhood rows as lesson 06. D3plus Treemap maps each additive `value` to rectangle area using its current `sum='value'` API.",
+        "Compare the treemap with lesson 06 using the same hour and metric. Explain why both charts export identical Python rows despite their different layouts. Why would an average require a different interpretation from these additive totals?")
+    print("Created seven teaching notebooks")

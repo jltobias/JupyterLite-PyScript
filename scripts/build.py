@@ -47,8 +47,11 @@ def build(base_url=""):
     shutil.copytree(ROOT / "site", output)
     shutil.copytree(ROOT / "content/data", output / "data")
     shutil.copy2(ROOT / "content/selection.py", output / "apps/shared/selection.py")
+    shutil.copy2(ROOT / "content/chart_data.py", output / "apps/shared/chart_data.py")
     lite_content = staging / "lite-content"
     shutil.copytree(ROOT / "content", lite_content)
+    (lite_content / "hub-config.json").write_text(
+        json.dumps({"base_url": base_url}, indent=2) + "\n", encoding="utf-8")
     # Root-relative launches bypass JupyterLab's notebook-files URL resolver.
     # Substitute the actual deployment prefix without hardcoding a public host.
     for path in lite_content.glob("*.ipynb"):

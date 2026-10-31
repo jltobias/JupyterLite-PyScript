@@ -1,0 +1,8 @@
+{
+  "interpreter": "https://cdn.jsdelivr.net/pyodide/v0.29.0/full/pyodide.mjs",
+  "files": {
+    "../shared/selection.py": "./selection.py",
+    "../shared/chart_data.py": "./chart_data.py",
+    "../../data/nyc-observations.geojson": "./observations.geojson"
+  }
+}
