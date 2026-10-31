@@ -4,6 +4,7 @@ Run after build/check_site; needs Playwright Chromium (or --browser-executable).
 The preview mount uses build-info.json, so CI exercises a repository subpath.
 """
 import argparse
+import base64
 import json
 import math
 from pathlib import Path
@@ -77,9 +78,63 @@ def stable_viewport(page):
     raise AssertionError("Viewport pixels did not settle")
 
 
-def check_scene_recovery_and_keyboard(page):
+def image_difference(page, before, after):
+    """Compare decoded pixels; PNG encoding bytes are not a visual contract."""
+    return page.evaluate("""async encoded => {
+        const images = await Promise.all(encoded.map(async value => {
+            const bytes = Uint8Array.from(atob(value), character => character.charCodeAt(0));
+            const image = await createImageBitmap(new Blob([bytes], {type: 'image/png'}));
+            const canvas = new OffscreenCanvas(image.width, image.height), context = canvas.getContext('2d');
+            context.drawImage(image, 0, 0);
+            return {width: image.width, height: image.height,
+                    data: context.getImageData(0, 0, image.width, image.height).data};
+        }));
+        const [first, second] = images;
+        if (first.width !== second.width || first.height !== second.height)
+            return {sameSize: false, before: [first.width, first.height], after: [second.width, second.height]};
+        let total = 0, significant = 0;
+        for (let index = 0; index < first.data.length; index += 4) {
+            let maximum = 0;
+            for (let channel = 0; channel < 3; channel++) {
+                const difference = Math.abs(first.data[index + channel] - second.data[index + channel]);
+                total += difference;
+                maximum = Math.max(maximum, difference);
+            }
+            if (maximum > 16) significant++;
+        }
+        const pixels = first.width * first.height;
+        return {sameSize: true, meanChannelError: total / (pixels * 3),
+                significantPixelFraction: significant / pixels};
+    }""", [base64.b64encode(value).decode("ascii") for value in (before, after)])
+
+
+def check_scene_recovery_and_keyboard(page, diagnostics):
+    canvas = page.locator("#viewport canvas")
+    # Observe real GPU submissions without adding test hooks to the application.
+    canvas.evaluate("""canvas => {
+        const gl = canvas.getContext('webgl2'), clear = gl.clear.bind(gl);
+        window.sceneDrawLog = {frame: 0, draws: []};
+        gl.clear = mask => {
+            if (mask & gl.COLOR_BUFFER_BIT) {
+                window.sceneDrawLog.frame++;
+                window.sceneDrawLog.draws = [];
+            }
+            return clear(mask);
+        };
+        for (const name of ['drawArrays', 'drawElements']) {
+            const draw = gl[name].bind(gl);
+            gl[name] = (...args) => {
+                window.sceneDrawLog.draws.push([name, ...args]);
+                return draw(...args);
+            };
+        }
+    }""")
     before = stable_viewport(page)
-    available = page.locator("#viewport canvas").evaluate("""canvas => {
+    before_draws = page.evaluate("window.sceneDrawLog")
+    selection = {"hour": page.locator("#hour").input_value(), "count": page.locator("#count").inner_text(),
+                 "table": page.locator("#observations-body").inner_text()}
+    (diagnostics / "scene-context-before.png").write_bytes(before)
+    available = canvas.evaluate("""canvas => {
         window.testLostContext = canvas.getContext('webgl2').getExtension('WEBGL_lose_context');
         if (!window.testLostContext) return false;
         window.testLostContext.loseContext();
@@ -92,8 +147,21 @@ def check_scene_recovery_and_keyboard(page):
     page.evaluate("window.testLostContext.restoreContext()")
     page.wait_for_function("document.querySelector('#status').dataset.state === 'ready'", timeout=30000)
     assert not page.locator("#download").is_disabled()
-    assert stable_viewport(page) == before, "Scene geometry did not recover after context restoration"
-    canvas = page.locator("#viewport canvas")
+    after = stable_viewport(page)
+    after_draws = page.evaluate("window.sceneDrawLog")
+    (diagnostics / "scene-context-after.png").write_bytes(after)
+    pixels = image_difference(page, before, after)
+    (diagnostics / "scene-context-metrics.json").write_text(json.dumps({
+        "pixels": pixels, "before": before_draws, "after": after_draws}, indent=2), encoding="utf-8")
+    assert after_draws["frame"] > before_draws["frame"], "Restored scene submitted no new frame"
+    assert before_draws["draws"] and before_draws["draws"] == after_draws["draws"], "Restored GPU geometry submissions differ"
+    # Allow tiny antialias/driver rounding differences while rejecting material
+    # appearance changes. Geometry submissions and retained selection must agree.
+    assert (pixels["sameSize"] and pixels["meanChannelError"] <= .25
+            and pixels["significantPixelFraction"] <= .002), f"Restored scene pixels differ: {pixels}"
+    assert page.locator("#hour").input_value() == selection["hour"]
+    assert page.locator("#count").inner_text() == selection["count"]
+    assert page.locator("#observations-body").inner_text() == selection["table"]
     assert canvas.get_attribute("tabindex") == "0"
     canvas.focus()
     previous = stable_viewport(page)
@@ -119,7 +187,7 @@ def check_app(page, origin, route, diagnostics):
     page.wait_for_function("document.querySelector('#count').textContent === '6'")
     ids = check_download(page, 6, 8)
     if route == "scene":
-        check_scene_recovery_and_keyboard(page)
+        check_scene_recovery_and_keyboard(page, diagnostics)
     selected_image = stable_viewport(page) if route != "leaflet" else None
     page.screenshot(path=str(diagnostics / f"{route}-desktop.png"), full_page=True)
     page.locator("#hour").select_option("0")
