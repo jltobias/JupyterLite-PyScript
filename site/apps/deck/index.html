@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>3D columns · Browser Geospatial Lab</title>
+    <link rel="stylesheet" href="../../assets/style.css" />
+    <script type="module" src="../shared/lab.js"></script>
+    <script
+      type="module"
+      src="https://pyscript.net/releases/2026.7.3/core.js"
+      onerror="window.pyscriptLoadFailed = true; window.labFailure?.('Could not load the PyScript runtime. Check CDN access.');"
+    ></script>
+  </head>
+  <body data-renderer="deck">
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="topbar">
+      <div class="wrap">
+        <a class="brand" href="../../"
+          ><span class="brand-mark" aria-hidden="true">⌘</span
+          ><span
+            >JupyterLite × PyScript<small>Browser Geospatial Lab</small></span
+          ></a
+        >
+        <nav class="nav" aria-label="Lab navigation">
+          <a href="../../book/">The book</a><a href="../leaflet/">2D map</a
+          ><a href="../scene/">3D scene</a>
+        </nav>
+      </div>
+    </header>
+    <main id="main">
+      <div class="lab-heading wrap">
+        <div class="breadcrumbs">
+          <a href="../../">Home</a> / Interactive labs / 3D map
+        </div>
+        <div class="eyebrow">Python selection + deck.gl renderer</div>
+        <h1>Give your data some height.</h1>
+        <p>
+          Columns use real longitude and latitude; their height encodes an
+          invented teaching value. An OpenStreetMap basemap supplies geographic
+          context without an access token.
+        </p>
+      </div>
+      <div class="lab-layout wrap">
+        <aside class="controls" aria-label="Selection controls">
+          <h2>Explore the sample</h2>
+          <div>
+            <label for="hour">Hour of day</label
+            ><select id="hour" disabled>
+              <option value="all">All hours</option>
+              <option value="0">00:00 — no observations</option>
+              <option value="8">08:00</option>
+              <option value="12">12:00</option>
+              <option value="18">18:00</option>
+              <option value="21">21:00</option>
+            </select>
+          </div>
+          <div class="stat">
+            <p class="count" id="count" aria-live="polite">—</p>
+            <p class="count-label">simulated observations</p>
+          </div>
+          <button class="button" id="download" disabled>
+            Download GeoJSON ↓
+          </button>
+          <div
+            class="status"
+            id="status"
+            role="status"
+            aria-live="polite"
+            data-state="loading"
+          >
+            Loading Python and WebGL… First load may take a minute.
+          </div>
+          <p class="note">
+            Synthetic teaching data. Column heights are illustrative, not
+            buildings or measured activity.
+          </p>
+        </aside>
+        <div
+          class="viewport"
+          id="viewport"
+          role="region"
+          aria-label="Interactive deck.gl geographic columns"
+        >
+          <div class="viewport-label" id="renderer-note">
+            Drag to pan · Shift + drag to tilt · Scroll to zoom · Hover columns
+          </div>
+          <div class="map-attribution">
+            ©
+            <a href="https://www.openstreetmap.org/copyright"
+              >OpenStreetMap contributors</a
+            >
+          </div>
+        </div>
+      </div>
+      <div class="observation-details wrap">
+        <details id="observations">
+          <summary>View selected observations</summary>
+          <div
+            class="table-scroll"
+            tabindex="0"
+            role="region"
+            aria-label="Selected observations table"
+          >
+            <table>
+              <caption>
+                Synthetic observations · original EPSG:4326 coordinates
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Neighborhood</th>
+                  <th scope="col">Hour</th>
+                  <th scope="col">Value</th>
+                  <th scope="col">Longitude</th>
+                  <th scope="col">Latitude</th>
+                </tr>
+              </thead>
+              <tbody id="observations-body">
+                <tr>
+                  <td colspan="6">Waiting for Python and the renderer.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+      </div>
+      <div class="lab-notes wrap">
+        <section>
+          <h2>Try it</h2>
+          <p>
+            Compare 08:00 and 18:00. The sample contains six observations at
+            each hour, but column heights differ. Select 00:00 to test an empty
+            layer. <a href="../../integrations/">Export to a GIS</a>.
+          </p>
+          <p>
+            This lab needs WebGL 2. If unavailable, use the
+            <a href="../leaflet/">2D map</a>; its GeoJSON is identical.
+          </p>
+        </section>
+        <section>
+          <h2>Follow the source</h2>
+          <p>
+            <a href="../shared/lab.py">Python interaction</a> ·
+            <a href="../shared/selection.py">Shared filter and export</a> ·
+            <a href="../shared/lab.js">JavaScript renderer adapters</a> ·
+            <a href="../../data/nyc-observations.geojson">Dataset</a>
+          </p>
+          <p>
+            <a href="../../book/nyc-taxi/">The NYC Taxi case study</a> connects
+            this small example to the Panel/deck.gl inspiration.
+          </p>
+        </section>
+      </div>
+    </main>
+    <script
+      type="py"
+      src="../shared/lab.py"
+      config="../shared/pyscript.json"
+    ></script>
+  </body>
+</html>

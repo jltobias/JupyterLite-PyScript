@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Learn browser geospatial Python with JupyterLite, PyScript, maps and 3D scenes. By James L. Tobias, MS, GISP."
+    />
+    <title>JupyterLite × PyScript — Browser Geospatial Lab</title>
+    <link rel="icon" href="assets/mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="topbar">
+      <div class="wrap">
+        <a class="brand" href="./"
+          ><span class="brand-mark" aria-hidden="true">⌘</span
+          ><span
+            >JupyterLite × PyScript<small>Browser Geospatial Lab</small></span
+          ></a
+        >
+        <nav class="nav" aria-label="Main navigation">
+          <a href="book/">The book</a><a href="#labs">Explore labs</a
+          ><a href="lite/lab/index.html">Open notebooks ↗</a>
+        </nav>
+      </div>
+    </header>
+    <main id="main">
+      <section class="hero wrap">
+        <div>
+          <div class="eyebrow">A learning hub by James L. Tobias, MS, GISP</div>
+          <h1>
+            A little Python.<br />A whole new<br /><em>view of the world.</em>
+          </h1>
+          <p>
+            Go from your first browser notebook to interactive maps and 3D
+            scenes. One small dataset connects every step.
+          </p>
+          <div class="buttons">
+            <a class="button" href="book/"
+              >Start the learning path <span aria-hidden="true">→</span></a
+            ><a
+              class="button secondary"
+              href="lite/lab/index.html?path=01-welcome.ipynb"
+              >Open JupyterLite ↗</a
+            >
+          </div>
+          <p class="micro">
+            No installation · No account · Python runs in your browser
+          </p>
+        </div>
+        <img
+          class="hero-art"
+          src="assets/splash.svg"
+          width="640"
+          height="530"
+          alt="A Python notebook, a map and a three dimensional city connected by GeoJSON."
+        />
+      </section>
+      <div class="strip">
+        <div class="wrap">
+          <span><strong>Explore</strong> with JupyterLite notebooks</span
+          ><span
+            ><strong>Build</strong> with PyScript + JavaScript renderers</span
+          ><span><strong>Connect</strong> with open geospatial formats</span>
+        </div>
+      </div>
+      <section class="section wrap" id="labs">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Choose your next view</div>
+            <h2>Small labs. Real possibilities.</h2>
+          </div>
+          <p>
+            Change an hour, see the result, then take your GeoJSON into another
+            tool.
+          </p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <span class="icon" aria-hidden="true">▤</span
+            ><span class="tag">01 / Notebook · JupyterLite</span>
+            <h3>Make yourself at home</h3>
+            <p>
+              Run your first Python cells and inspect the teaching dataset in a
+              notebook.
+            </p>
+            <a href="lite/lab/index.html?path=01-welcome.ipynb"
+              >Launch the notebook <span aria-hidden="true">→</span></a
+            >
+          </article>
+          <article class="card">
+            <span class="icon" aria-hidden="true">⌖</span
+            ><span class="tag">02 / 2D map · Leaflet</span>
+            <h3>Put your data on the map</h3>
+            <p>
+              Filter synthetic NYC points with Python and explore a familiar
+              street map.
+            </p>
+            <a href="apps/leaflet/"
+              >Open the 2D map <span aria-hidden="true">→</span></a
+            >
+          </article>
+          <article class="card">
+            <span class="icon" aria-hidden="true">▥</span
+            ><span class="tag">03 / 3D map · deck.gl</span>
+            <h3>Give your data some height</h3>
+            <p>
+              Turn the same observations into geographic columns with a GPU
+              renderer.
+            </p>
+            <a href="apps/deck/"
+              >Open the 3D map <span aria-hidden="true">→</span></a
+            >
+          </article>
+          <article class="card">
+            <span class="icon" aria-hidden="true">◇</span
+            ><span class="tag">04 / 3D scene · Three.js</span>
+            <h3>Step into a spatial scene</h3>
+            <p>
+              Compare a geographic map with a local coordinate scene built from
+              the same data.
+            </p>
+            <a href="apps/scene/"
+              >Open the 3D scene <span aria-hidden="true">→</span></a
+            >
+          </article>
+          <article class="card">
+            <span class="icon" aria-hidden="true">{ }</span
+            ><span class="tag">05 / Notebook · Source code</span>
+            <h3>Look under the hood</h3>
+            <p>
+              Read working source, reuse the filter and learn where Python meets
+              JavaScript.
+            </p>
+            <a href="lite/lab/index.html?path=03-author-an-app.ipynb"
+              >Explore app authoring <span aria-hidden="true">→</span></a
+            >
+          </article>
+          <article class="card">
+            <span class="icon" aria-hidden="true">⇄</span
+            ><span class="tag">06 / GeoJSON · Interoperability</span>
+            <h3>Take your data further</h3>
+            <p>
+              Export a selection and bring it into GeoLibre, RustGIS or
+              JupyterGIS.
+            </p>
+            <a href="integrations/"
+              >Try the GIS handoff <span aria-hidden="true">→</span></a
+            >
+          </article>
+        </div>
+      </section>
+      <section class="wrap">
+        <div class="learning">
+          <div>
+            <div class="eyebrow">A path from curious to creating</div>
+            <h2>Read. Run. Change.<br />Make it your own.</h2>
+            <p>
+              The companion Jupyter Book explains the ideas behind each
+              activity, including runtime boundaries and the NYC Taxi
+              inspiration.
+            </p>
+            <a href="book/">Read the companion book →</a>
+          </div>
+          <ol class="steps">
+            <li>
+              <div>
+                <strong>Start with a notebook</strong
+                ><span
+                  >Learn how browser Python works, then inspect 24 simulated
+                  observations.</span
+                >
+              </div>
+            </li>
+            <li>
+              <div>
+                <strong>Move from data to interaction</strong
+                ><span
+                  >Use one Python selection in a 2D map, 3D map and 3D
+                  scene.</span
+                >
+              </div>
+            </li>
+            <li>
+              <div>
+                <strong>Exchange a file, keep the meaning</strong
+                ><span
+                  >Carry coordinates, attributes and provenance into another
+                  GIS.</span
+                >
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">
+      <div class="wrap">
+        <p>
+          James L. Tobias, MS, GISP ·
+          <a href="https://github.com/jltobias/JupyterLite-PyScript"
+            >Project source ↗</a
+          >
+        </p>
+        <p>
+          Synthetic teaching data · First load needs internet ·
+          <a href="book/runtimes/">About the runtimes</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

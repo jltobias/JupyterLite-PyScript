@@ -1,0 +1,24 @@
+version: 1
+project:
+  id: jupyterlite-pyscript-geospatial
+  title: Browser Geospatial Lab
+  description: Learn JupyterLite and PyScript through notebooks, maps and scenes.
+  authors:
+    - name: James L. Tobias, MS, GISP
+  github: https://github.com/jltobias/JupyterLite-PyScript
+  toc:
+    - file: index.md
+    - file: runtimes.md
+    - file: data.md
+    - file: maps-and-scenes.md
+    - file: authoring.md
+    - file: nyc-taxi.md
+    - file: interoperability.md
+    - file: deployment.md
+site:
+  template: book-theme
+  title: Browser Geospatial Lab
+  options:
+    logo_text: JupyterLite × PyScript
+    logo_url: '{{HUB_BASE}}/'
+    hide_authors: false

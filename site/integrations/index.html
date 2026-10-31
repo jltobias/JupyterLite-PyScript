@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>GIS handoff · Browser Geospatial Lab</title>
+    <link rel="stylesheet" href="../assets/style.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="topbar">
+      <div class="wrap">
+        <a class="brand" href="../"
+          ><span class="brand-mark" aria-hidden="true">⌘</span
+          ><span
+            >JupyterLite × PyScript<small>Browser Geospatial Lab</small></span
+          ></a
+        >
+        <nav class="nav" aria-label="Main navigation">
+          <a href="../book/">The book</a><a href="../apps/leaflet/">2D map</a
+          ><a href="../lite/lab/index.html">Notebooks</a>
+        </nav>
+      </div>
+    </header>
+    <main id="main" class="integration-content wrap">
+      <div class="eyebrow">The file is the interface</div>
+      <h1>One selection.<br />Three GIS destinations.</h1>
+      <p>
+        Exchange a real GeoJSON file across independent browser applications.
+        You do not need a Python bridge, a shared runtime or a package
+        installation.
+      </p>
+      <div class="notice">
+        Use the same file in each tool: six synthetic NYC points at 08:00, in
+        longitude/latitude (EPSG:4326). No observation represents a real person,
+        taxi trip or health record.
+      </div>
+      <h2>1. Export from a PyScript lab</h2>
+      <ol>
+        <li>
+          <a href="../apps/leaflet/">Open the 2D map</a> and wait for “Ready.”
+        </li>
+        <li>
+          Select <strong>08:00</strong>. Check that the displayed count is
+          <strong>6</strong>.
+        </li>
+        <li>
+          Click <strong>Download GeoJSON</strong>. Keep
+          <code>synthetic-nyc-hour-8.geojson</code>. Open it in a text editor if
+          you want to inspect its metadata and six features.
+        </li>
+      </ol>
+      <h2>2. Import into a browser GIS</h2>
+      <ul>
+        <li>
+          <a href="https://web.geolibre.app/">GeoLibre ↗</a>: drag the
+          downloaded GeoJSON onto the map, then zoom to the layer. Check six
+          points and the <code>hour</code>, <code>value</code> and
+          <code>simulated</code> attributes. See
+          <a href="https://geolibre.app/user-guide/embedding/"
+            >GeoLibre's documented URL handoff</a
+          >
+          for a public-file alternative.
+        </li>
+        <li>
+          <a href="https://web.rustgis.app/">RustGIS ↗</a>: choose
+          <strong>Home → Add → Add Data</strong> and select the downloaded
+          GeoJSON. Inspect the attribute table and zoom to the imported layer.
+          See
+          <a href="https://rustgis.app/user-guide/data/"
+            >supported data formats</a
+          >. The separate RustGIS Python library targets native CPython; this
+          lesson does not install it in Pyodide.
+        </li>
+        <li>
+          <a
+            href="https://jupytergis.readthedocs.io/en/latest/lite/lab/index.html"
+            >JupyterGIS browser preview ↗</a
+          >: upload the GeoJSON with the file browser's upload button. In the
+          same directory, choose <strong>Other → GIS File</strong> in the
+          launcher to create a <code>.jGIS</code> document. In its layer panel
+          choose <strong>+ → Add Vector Layer → GeoJSON</strong>, set
+          <strong>Path</strong> to your uploaded filename, then confirm
+          <strong>Ok</strong>. Right-click the layer and choose
+          <strong>Zoom to Layer</strong>. Inspect the point count and fields.
+          See
+          <a href="https://jupytergis.readthedocs.io/en/latest/"
+            >JupyterGIS documentation</a
+          >.
+        </li>
+      </ul>
+      <p>
+        Import labels may change upstream. Consult each tool’s linked
+        documentation if a menu moves. All three destinations are external
+        applications; this repository neither controls them nor shares Python
+        memory with them.
+      </p>
+      <h2>3. Verify the handoff</h2>
+      <p>
+        Your layer should contain <strong>six</strong> features, each with
+        <code>hour = 8</code> and <code>simulated = true</code>. Coordinates
+        should be near longitude <strong>−74</strong> and latitude
+        <strong>40.7</strong>. If the points appear in the wrong place, confirm
+        longitude comes first and select EPSG:4326 if prompted.
+      </p>
+      <p>
+        Repeat the export at 00:00. A valid empty FeatureCollection has zero
+        features; a GIS may show an empty layer or decline to display it. That
+        is an empty selection, not a broken download.
+      </p>
+      <h2>Know the boundaries</h2>
+      <p>
+        JupyterGIS Lite is a browser preview. Do not expect real-time
+        collaboration, QGIS project conversion, server raster tiling or
+        functioning STAC search there. Keep the original GeoJSON download:
+        browser storage can be cleared and applications use separate virtual
+        filesystems.
+      </p>
+      <p>
+        <a href="../book/interoperability/"
+          >Read the full interoperability lesson →</a
+        >
+        ·
+        <a href="../data/nyc-observations.geojson" download
+          >Download the complete teaching dataset</a
+        >
+      </p>
+    </main>
+  </body>
+</html>

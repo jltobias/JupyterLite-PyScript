@@ -1,0 +1,12 @@
+_bmad/
+_bmad.setup-*/
+_bmad-output/
+.venv/
+_site/
+book/_build/
+node_modules/
+__pycache__/
+*.pyc
+.jupyterlite.doit.db*
+tmp/
+.DS_Store

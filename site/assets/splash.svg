@@ -1,0 +1,144 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 640 530"
+  role="img"
+  aria-labelledby="title desc"
+>
+  <title id="title">One dataset, a world of browser possibilities</title>
+  <desc id="desc">
+    An original teal and navy illustration connects a Python notebook to a two
+    dimensional map and an elevated city model.
+  </desc>
+  <defs>
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M24 0H0V24" fill="none" stroke="#d3e7df" stroke-width=".6" />
+    </pattern>
+    <linearGradient id="sea" x2="0" y2="1">
+      <stop stop-color="#d8f0e7" />
+      <stop offset="1" stop-color="#b2dcd3" />
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="624" height="514" rx="24" fill="#eaf3ee" />
+  <rect x="8" y="8" width="624" height="514" rx="24" fill="url(#grid)" />
+  <path d="M126 276L311 169 535 297 347 408Z" fill="#b8d6cb" />
+  <path
+    d="M126 260L311 153 535 281 347 392Z"
+    fill="url(#sea)"
+    stroke="#83b6a8"
+  />
+  <path
+    d="M220 224l69-42 130 74-62 39zM195 266l57-32 98 57-55 34zM365 305l64-37 57 33-61 37z"
+    fill="#f0f4df"
+    stroke="#9dc4b3"
+  />
+  <g stroke="#acd0be" fill="none" stroke-width="2">
+    <path
+      d="M246 213l126 74M271 197l127 74M217 251l101 59M208 281l56-33M244 302l55-32M384 316l63-36M402 327l63-36"
+    />
+  </g>
+  <g stroke="#087e83" stroke-width="1.2">
+    <path d="M273 232v-66l22 13v66z" fill="#079095" />
+    <path d="M295 245v-66l16-9v66z" fill="#065c65" />
+    <path d="M273 166l16-9 22 13-16 9z" fill="#4fb8ad" />
+    <path d="M316 254v-99l23 13v99z" fill="#079095" />
+    <path d="M339 267v-99l16-9v99z" fill="#065c65" />
+    <path d="M316 155l16-9 23 13-16 9z" fill="#70cbb7" />
+    <path d="M360 276v-48l23 13v48z" fill="#079095" />
+    <path d="M383 289v-48l16-9v48z" fill="#065c65" />
+    <path d="M360 228l16-9 23 13-16 9z" fill="#70cbb7" />
+  </g>
+  <g fill="#e5b65b" stroke="#fff" stroke-width="2">
+    <ellipse cx="238" cy="271" rx="6" ry="3.5" />
+    <ellipse cx="320" cy="316" rx="6" ry="3.5" />
+    <ellipse cx="437" cy="308" rx="6" ry="3.5" />
+  </g>
+  <path
+    d="M96 337C64 422 192 448 277 418M423 183c40-71 122-40 119 11"
+    fill="none"
+    stroke="#26999b"
+    stroke-width="2"
+    stroke-dasharray="5 6"
+  />
+  <g transform="translate(39 63)">
+    <rect width="203" height="161" rx="10" fill="#102e3c" />
+    <path d="M0 27h203" stroke="#35515d" />
+    <g fill="#7aa49f">
+      <circle cx="15" cy="14" r="3" />
+      <circle cx="27" cy="14" r="3" />
+      <circle cx="39" cy="14" r="3" />
+    </g>
+    <text x="16" y="52" fill="#93dbc7" font-family="monospace" font-size="12">
+      [1] data = load()
+    </text>
+    <text x="16" y="77" fill="#dcece7" font-family="monospace" font-size="12">
+      [2] select(hour=8)
+    </text>
+    <rect x="16" y="94" width="171" height="49" rx="4" fill="#234551" />
+    <path
+      d="M26 130l24-14 24 6 24-19 24 7 25-9 27 8"
+      fill="none"
+      stroke="#75d2b4"
+      stroke-width="2"
+    />
+    <text
+      x="0"
+      y="183"
+      fill="#234551"
+      font-family="sans-serif"
+      font-size="11"
+      font-weight="700"
+      letter-spacing="2"
+    >
+      EXPLORE IN A NOTEBOOK
+    </text>
+  </g>
+  <g transform="translate(432 48)">
+    <rect width="164" height="120" rx="10" fill="#fff" stroke="#b1d3c6" />
+    <path
+      d="M24 23l25 10 44-15 48 17v63l-47-15-44 16-26-11z"
+      fill="#e7f1df"
+      stroke="#b4cfb6"
+    />
+    <path
+      d="M50 33v66M94 18v65M24 61l26 9 44-14 47 12"
+      fill="none"
+      stroke="#c4d9be"
+    />
+    <path
+      d="M87 44c-10 0-17 8-17 17 0 13 17 27 17 27s17-14 17-27c0-9-7-17-17-17z"
+      fill="#087e83"
+    />
+    <circle cx="87" cy="61" r="6" fill="#fff" />
+  </g>
+  <g transform="translate(77 400)">
+    <rect width="176" height="60" rx="9" fill="#fff" stroke="#b1d3c6" />
+    <text
+      x="15"
+      y="25"
+      fill="#087e83"
+      font-family="monospace"
+      font-size="13"
+      font-weight="700"
+    >
+      { GeoJSON }
+    </text>
+    <text x="15" y="44" fill="#526d75" font-family="sans-serif" font-size="10">
+      ONE DATASET · MANY VIEWS
+    </text>
+  </g>
+  <g transform="translate(381 425)">
+    <rect width="204" height="44" rx="22" fill="#102e3c" />
+    <circle cx="24" cy="22" r="5" fill="#76d2b6" />
+    <text
+      x="39"
+      y="26"
+      fill="#fff"
+      font-family="sans-serif"
+      font-size="10"
+      font-weight="700"
+      letter-spacing=".5"
+    >
+      PYTHON IN THE BROWSER
+    </text>
+  </g>
+</svg>

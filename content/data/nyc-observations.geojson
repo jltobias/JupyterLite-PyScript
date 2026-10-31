@@ -1,0 +1,423 @@
+{
+  "type": "FeatureCollection",
+  "name": "Synthetic NYC teaching observations",
+  "metadata": {
+    "provenance": "Invented by scripts/generate_data.py for JupyterLite-PyScript; not collected or sampled from people, taxi trips or health records.",
+    "author": "James L. Tobias, MS, GISP",
+    "purpose": "Small deterministic classroom dataset; approximate NYC neighborhood coordinates and invented hour/value attributes.",
+    "coordinate_reference_system": "EPSG:4326; WGS 84 longitude, latitude (RFC 7946)",
+    "value_units": "invented teaching units",
+    "simulated": true,
+    "feature_count": 24
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "demo-08-01",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.008,
+          40.708
+        ]
+      },
+      "properties": {
+        "name": "Lower Manhattan",
+        "hour": 8,
+        "value": 20,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-08-02",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.998,
+          40.724
+        ]
+      },
+      "properties": {
+        "name": "SoHo",
+        "hour": 8,
+        "value": 37,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-08-03",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.002,
+          40.747
+        ]
+      },
+      "properties": {
+        "name": "Chelsea",
+        "hour": 8,
+        "value": 54,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-08-04",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.985,
+          40.758
+        ]
+      },
+      "properties": {
+        "name": "Midtown",
+        "hour": 8,
+        "value": 71,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-08-05",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.982,
+          40.729
+        ]
+      },
+      "properties": {
+        "name": "East Village",
+        "hour": 8,
+        "value": 88,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-08-06",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.948,
+          40.747
+        ]
+      },
+      "properties": {
+        "name": "Long Island City",
+        "hour": 8,
+        "value": 25,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-12-01",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.007,
+          40.7087
+        ]
+      },
+      "properties": {
+        "name": "Lower Manhattan",
+        "hour": 12,
+        "value": 43,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-12-02",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.997,
+          40.7247
+        ]
+      },
+      "properties": {
+        "name": "SoHo",
+        "hour": 12,
+        "value": 60,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-12-03",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.001,
+          40.7477
+        ]
+      },
+      "properties": {
+        "name": "Chelsea",
+        "hour": 12,
+        "value": 77,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-12-04",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.984,
+          40.7587
+        ]
+      },
+      "properties": {
+        "name": "Midtown",
+        "hour": 12,
+        "value": 94,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-12-05",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.981,
+          40.7297
+        ]
+      },
+      "properties": {
+        "name": "East Village",
+        "hour": 12,
+        "value": 31,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-12-06",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.947,
+          40.7477
+        ]
+      },
+      "properties": {
+        "name": "Long Island City",
+        "hour": 12,
+        "value": 48,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-18-01",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.006,
+          40.7094
+        ]
+      },
+      "properties": {
+        "name": "Lower Manhattan",
+        "hour": 18,
+        "value": 66,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-18-02",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.996,
+          40.7254
+        ]
+      },
+      "properties": {
+        "name": "SoHo",
+        "hour": 18,
+        "value": 83,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-18-03",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0,
+          40.7484
+        ]
+      },
+      "properties": {
+        "name": "Chelsea",
+        "hour": 18,
+        "value": 20,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-18-04",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.983,
+          40.7594
+        ]
+      },
+      "properties": {
+        "name": "Midtown",
+        "hour": 18,
+        "value": 37,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-18-05",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98,
+          40.7304
+        ]
+      },
+      "properties": {
+        "name": "East Village",
+        "hour": 18,
+        "value": 54,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-18-06",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.946,
+          40.7484
+        ]
+      },
+      "properties": {
+        "name": "Long Island City",
+        "hour": 18,
+        "value": 71,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-21-01",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.005,
+          40.7101
+        ]
+      },
+      "properties": {
+        "name": "Lower Manhattan",
+        "hour": 21,
+        "value": 89,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-21-02",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.995,
+          40.7261
+        ]
+      },
+      "properties": {
+        "name": "SoHo",
+        "hour": 21,
+        "value": 26,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-21-03",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.999,
+          40.7491
+        ]
+      },
+      "properties": {
+        "name": "Chelsea",
+        "hour": 21,
+        "value": 43,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-21-04",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.982,
+          40.7601
+        ]
+      },
+      "properties": {
+        "name": "Midtown",
+        "hour": 21,
+        "value": 60,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-21-05",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.979,
+          40.7311
+        ]
+      },
+      "properties": {
+        "name": "East Village",
+        "hour": 21,
+        "value": 77,
+        "simulated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "demo-21-06",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.945,
+          40.7491
+        ]
+      },
+      "properties": {
+        "name": "Long Island City",
+        "hour": 21,
+        "value": 94,
+        "simulated": true
+      }
+    }
+  ]
+}
